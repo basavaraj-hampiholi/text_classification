@@ -2,7 +2,7 @@
 
 ## Overview
 This repo contains the code for text classification on DBpedia dataset.
-It consists of text preprocessing steps, dataloading and training of CNN architecture
+It consists of text preprocessing steps, custom data loading in pytorch and training of CNN architecture
 described in (https://arxiv.org/abs/1510.03820)
 
 ## Steps to run the code
