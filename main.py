@@ -6,7 +6,7 @@ from torchsummary import summary
 from trainer import Trainer
 from dataset.dbpedia import DBpediaDataset 
 from utils import save_checkpoint, adjust_learning_rate
-from models.classifier import initilize_model
+from models.classifier import Sentence_CNN
 import mlflow
 import logging
 logging.basicConfig(level=logging.WARN)
@@ -37,11 +37,7 @@ def main():
 
     args = parser.parse_args()
 
-    model = initilize_model(vocab_size=577154,
-                                      embed_dim=args.embed_dim,
-                                      learning_rate=0.25,
-                                      dropout=0.5)
-
+    model = Sentence_CNN(vocab_size=577154, embed_size=args.embed_dim, num_classes=args.num_classes)
     model.cuda()
 
     """ define loss function (criterion) and optimizer """
