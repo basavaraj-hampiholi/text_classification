@@ -17,7 +17,8 @@ setup(
     'torch>=1.9',
     'pandas',
     'nltk',
-    'mlflow'
+    'mlflow',
+    'torchtext'
   ],
   setup_requires=[
     'pytest-runner',
