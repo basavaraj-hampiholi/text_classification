@@ -6,6 +6,7 @@ from torchtext.vocab import GloVe, vocab
 from torchtext.data.utils import get_tokenizer
 import nltk
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 nltk.download('stopwords')
 from nltk.corpus import wordnet
 nltk.download('averaged_perceptron_tagger')
@@ -18,14 +19,14 @@ def remove_punctuation(text):
 
 def remove_stopwords(text):
 	STOPWORDS = set(stopwords.words('english'))
-    return " ".join([word for word in str(text).split() if word not in STOPWORDS])
+	return " ".join([word for word in str(text).split() if word not in STOPWORDS])
 
 
 def lemmatize_words(text):
 	lemmatizer = WordNetLemmatizer()
 	wordnet_map = {"N":wordnet.NOUN, "V":wordnet.VERB, "J":wordnet.ADJ, "R":wordnet.ADV}
-    pos_tagged_text = nltk.pos_tag(text.split())
-    return " ".join([lemmatizer.lemmatize(word, wordnet_map.get(pos[0], wordnet.NOUN)) for word, pos in pos_tagged_text])
+	pos_tagged_text = nltk.pos_tag(text.split())
+	return " ".join([lemmatizer.lemmatize(word, wordnet_map.get(pos[0], wordnet.NOUN)) for word, pos in pos_tagged_text])
 
 
 def encode_label(cls_name):
@@ -116,7 +117,6 @@ def read_csvs(train_path, valid_path, text_path):
 
 	return trn_frame,val_frame,tst_frame
 
-
 def main():
 
 	parser = argparse.ArgumentParser(description='DBPedia Sentence Classification: Data Preparation')
@@ -127,7 +127,7 @@ def main():
 
 	args = parser.parse_args()
 
-	df_train, df_valid, df_test = read_csvs(args.csv_path, args.val_path, args.test_path)
+	df_train, df_valid, df_test = read_csvs(args.train_path, args.val_path, args.test_path)
 	cat_df = prepare(df_train, df_valid, df_test, class_dict)
 	text_tokens, text_word2vec, max_len = tokenize(cat_df, word2vec)
 	input_ids = encode_index(text_tokens, text_word2vec, max_len)
@@ -140,11 +140,5 @@ def main():
 	np.save(args.out_path+'valid_prepared.npy', valid_inputs, allow_pickle=True)
 	np.save(args.out_path+'test_prepared.npy', test_inputs, allow_pickle=True)
 
-
-
 if __name__ == '__main__':
    main()
-
-
-
-
