@@ -6,7 +6,7 @@ setup(
   version = '0.0.1',
   license='MIT',
   description = 'Sentence Classification using CNNs',
-  author = 'Basavaraj Hampiholi',
+  author = '',
   author_email = '',
   url = 'https://github.com/basavaraj-hampiholi/text_classification',
   keywords = [
