@@ -1,6 +1,7 @@
 from classes import *
 import argparse
 import pandas as pd
+import numpy as np
 import string
 from torchtext.vocab import GloVe, vocab
 from torchtext.data.utils import get_tokenizer
@@ -72,10 +73,8 @@ def encode_index(tokenized_texts, word2idx, max_len):
 
     input_ids = []
     for tokenized_sent in tokenized_texts:
-        # Pad sentences to max_len
         tokenized_sent += ['<pad>'] * (max_len - len(tokenized_sent))
 
-        # Encode tokens to input_ids
         input_id = [word2idx.get(token) for token in tokenized_sent]
         input_ids.append(input_id)
         
@@ -91,15 +90,25 @@ def text_preprocessing(dframe):
 
 	return dframe
 
-def prepare(train_df, valid_df, text_df, lbl_dict):
+def save_labels(df, filename, out_dir):
+	test_labels=[]
+	for lbl in df['labels']:
+		test_labels.append(lbl)
+	np.save(out_dir+filename, np.array(test_labels), allow_pickle=True)
+
+
+def prepare(train_df, valid_df, text_df, lbl_dict, out_path):
 	df_train_lemm = text_preprocessing(train_df)
 	df_train_lemm = get_labels(df_train_lemm, lbl_dict)
+	save_labels(df_train_lemm, 'train_labels.npy', out_path)
 
 	df_valid_lemm = text_preprocessing(valid_df)
 	df_valid_lemm = get_labels(df_valid_lemm, lbl_dict)
+	save_labels(df_valid_lemm, 'valid_labels.npy', out_path)
 
 	df_test_lemm = text_preprocessing(text_df)
 	df_test_lemm = get_labels(df_test_lemm, lbl_dict)
+	save_labels(df_test_lemm, 'test_labels.npy', out_path)
 
 	df_both = df_train_lemm.append(df_valid_lemm)
 	df_all = df_both.append(df_test_lemm)
@@ -117,6 +126,7 @@ def read_csvs(train_path, valid_path, text_path):
 
 	return trn_frame,val_frame,tst_frame
 
+
 def main():
 
 	parser = argparse.ArgumentParser(description='DBPedia Sentence Classification: Data Preparation')
@@ -128,7 +138,7 @@ def main():
 	args = parser.parse_args()
 
 	df_train, df_valid, df_test = read_csvs(args.train_path, args.val_path, args.test_path)
-	cat_df = prepare(df_train, df_valid, df_test, class_dict)
+	cat_df = prepare(df_train, df_valid, df_test, class_dict, args.out_path)
 	text_tokens, text_word2vec, max_len = tokenize(cat_df)
 	input_ids = encode_index(text_tokens, text_word2vec, max_len)
 
@@ -139,6 +149,7 @@ def main():
 	np.save(args.out_path+'train_prepared.npy', train_inputs, allow_pickle=True)
 	np.save(args.out_path+'valid_prepared.npy', valid_inputs, allow_pickle=True)
 	np.save(args.out_path+'test_prepared.npy', test_inputs, allow_pickle=True)
+
 
 if __name__ == '__main__':
    main()
