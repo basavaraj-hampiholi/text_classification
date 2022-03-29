@@ -5,16 +5,20 @@ from torch.nn import functional as F
 import torch.optim as optim
 import numpy as np
 
-
+"""
+References
+1. https://chriskhanhtran.github.io/posts/cnn-sentence-classification/
+2. A Sensitivity Analysis of (and Practitioners' Guide to) Convolutional Neural Networks for Sentence Classification, Zhang et al
+"""
 class Sentence_CNN(nn.Module):
 	def __init__(self, vocab_size, embed_size, num_classes):
 		super(Sentence_CNN, self).__init__()
 
 		self.embedding = nn.Embedding(num_embeddings=vocab_size,embedding_dim=embed_size, padding_idx=0, max_norm=5.0)
 
-		self.conv1 = nn.Conv1d(in_channels=300,out_channels=128, kernel_size=3)#, groups=out_channels)
-		self.conv2 = nn.Conv1d(in_channels=300,out_channels=128, kernel_size=4)#, groups=out_channels)
-		self.conv3 = nn.Conv1d(in_channels=300,out_channels=128, kernel_size=5)#, groups=out_channels)
+		self.conv1 = nn.Conv1d(in_channels=embed_size,out_channels=128, kernel_size=3)
+		self.conv2 = nn.Conv1d(in_channels=embed_size,out_channels=128, kernel_size=4)
+		self.conv3 = nn.Conv1d(in_channels=embed_size,out_channels=128, kernel_size=5)
 
 		self.relu = nn.ReLU()
 
