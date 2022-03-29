@@ -9,4 +9,4 @@ described in (https://arxiv.org/abs/1510.03820)
 
 1. Download the DBPedia dataset to dataset folder
 2. Run python preprocess.py --out_path "/". This generates numpy files for preprocessed features and labels
-3. Execute CUDA_VISIBLE_DEVICES=0 python main.py. This begins the training
+3. Execute CUDA_VISIBLE_DEVICES=0 python main.py --dataroot="/ ". This begins the training
