@@ -50,7 +50,7 @@ def encode_vectors(text):
     tokens = tokenizer(text)
     return tokens
 
-def tokenize(df, word2vec):
+def tokenize(df):
     tokenized_texts = []
     idx = 2
     word2vec={}
@@ -129,7 +129,7 @@ def main():
 
 	df_train, df_valid, df_test = read_csvs(args.train_path, args.val_path, args.test_path)
 	cat_df = prepare(df_train, df_valid, df_test, class_dict)
-	text_tokens, text_word2vec, max_len = tokenize(cat_df, word2vec)
+	text_tokens, text_word2vec, max_len = tokenize(cat_df)
 	input_ids = encode_index(text_tokens, text_word2vec, max_len)
 
 	train_inputs = input_ids[:len(df_train)]
