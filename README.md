@@ -1,4 +1,4 @@
-# DBpedia: Sentence Classification using Conv Nets
+# DBpedia: Text Classification using Conv Nets
 
 ## Overview
 This repo contains the code for text classification on DBpedia dataset.
