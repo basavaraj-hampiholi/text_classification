@@ -9,7 +9,7 @@ from torch.nn import functional as F
 class DBpediaDataset(Dataset):
     def __init__(self, root_dir, npy_path, npy_lbls, transform):       
         self.root_dir = root_dir
-        self.data = np.load(npy_path, allow_pickle=True)
+        self.data = np.load(root_dir+'/'+npy_path, allow_pickle=True)
         #self.model_labels = np.load(npy_lbls, allow_pickle=True)
         self.model_data = np.array(i[0] for i in self.data)
         self.model_labels = np.array(i[1] for i in self.data)
