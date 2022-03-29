@@ -1,25 +1,23 @@
 from setuptools import setup, find_packages
 
 setup(
-  name = 'multimodal-fusion',
+  name = 'Text recognition',
   packages = find_packages(exclude=['examples']),
   version = '0.0.1',
   license='MIT',
   description = 'Sentence Classification using CNNs',
   author = 'Basavaraj Hampiholi',
-  author_email = 'raaj043ofc@gmail.com',
-  url = 'https://github.com/b_hampiholi/mm-fusion',
+  author_email = '',
+  url = 'https://github.com/basavaraj-hampiholi/text_classification',
   keywords = [
     'Sentence Classification',
     'CNN'
   ],
   install_requires=[
     'torch>=1.9',
-    'torchvision',
-    'pytorchvideo',
-    'torchvideotransforms',
     'pandas',
-    'nltk'
+    'nltk',
+    'mlflow'
   ],
   setup_requires=[
     'pytest-runner',
