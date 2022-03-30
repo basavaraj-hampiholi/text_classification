@@ -1,5 +1,5 @@
 ### general settings ###
-dbpedia_root = '/home/vision/BMW_task/hmtc'
+dbpedia_root = '/home/vision/hmtc'
 csv_train = 'csv_old/train_prepared.csv'
 csv_valid = 'csv_old/valid_prepared.csv'
 csv_test = 'csv_old/test_prepared.csv'
