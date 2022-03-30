@@ -22,7 +22,7 @@ warnings.filterwarnings("ignore")
 
 """ Define argparser to read the command line arguments """
 parser = argparse.ArgumentParser(description='multimodal fusion')
-parser.add_argument('--dataroot', default='/home/vision/BMW_task/hmtc', help='root directory of dataset')
+parser.add_argument('--dataroot', default='/home/vision/hmtc', help='root directory of dataset')
 parser.add_argument('--lr', type=float, default=0.05, help='base learning rate')
 parser.add_argument('--bs', type=int, default=64, help='batch size')
 parser.add_argument('--num_classes', type=int, default=219, help='Number of categories')
