@@ -90,25 +90,25 @@ def text_preprocessing(dframe):
 
 	return dframe
 
-def save_labels(df, filename, out_dir):
+def save_labels(df, filename):
 	test_labels=[]
 	for lbl in df['labels']:
 		test_labels.append(lbl)
-	np.save(out_dir+filename, np.array(test_labels), allow_pickle=True)
+	np.save('./npy/'+filename, np.array(test_labels), allow_pickle=True)
 
 
-def prepare(train_df, valid_df, text_df, lbl_dict, out_path):
+def prepare(train_df, valid_df, text_df, lbl_dict):
 	df_train_lemm = text_preprocessing(train_df)
 	df_train_lemm = get_labels(df_train_lemm, lbl_dict)
-	save_labels(df_train_lemm, 'train_labels.npy', out_path)
+	save_labels(df_train_lemm, 'train_labels.npy')
 
 	df_valid_lemm = text_preprocessing(valid_df)
 	df_valid_lemm = get_labels(df_valid_lemm, lbl_dict)
-	save_labels(df_valid_lemm, 'valid_labels.npy', out_path)
+	save_labels(df_valid_lemm, 'valid_labels.npy')
 
 	df_test_lemm = text_preprocessing(text_df)
 	df_test_lemm = get_labels(df_test_lemm, lbl_dict)
-	save_labels(df_test_lemm, 'test_labels.npy', out_path)
+	save_labels(df_test_lemm, 'test_labels.npy')
 
 	df_both = df_train_lemm.append(df_valid_lemm)
 	df_all = df_both.append(df_test_lemm)
@@ -133,12 +133,11 @@ def main():
 	parser.add_argument('--train_path', default='DBPEDIA_train.csv', help='read train csv file')
 	parser.add_argument('--val_path', default='DBPEDIA_val.csv', help='read validation csv file')
 	parser.add_argument('--test_path', default='DBPEDIA_test.csv', help='read test csv file')
-	parser.add_argument('--out_path', default='/home/vision/BMW_task/hmtc/npy/', help='output save path')
 
 	args = parser.parse_args()
 
 	df_train, df_valid, df_test = read_csvs(args.train_path, args.val_path, args.test_path)
-	cat_df = prepare(df_train, df_valid, df_test, class_dict, args.out_path)
+	cat_df = prepare(df_train, df_valid, df_test, class_dict)
 	text_tokens, text_word2vec, max_len = tokenize(cat_df)
 	input_ids = encode_index(text_tokens, text_word2vec, max_len)
 
@@ -146,9 +145,9 @@ def main():
 	valid_inputs = input_ids[len(df_train):len(df_train)+len(df_valid)]
 	test_inputs = input_ids[len(df_train)+len(df_valid):]
 
-	np.save(args.out_path+'train_prepared.npy', train_inputs, allow_pickle=True)
-	np.save(args.out_path+'valid_prepared.npy', valid_inputs, allow_pickle=True)
-	np.save(args.out_path+'test_prepared.npy', test_inputs, allow_pickle=True)
+	np.save('./npy/train_prepared.npy', train_inputs, allow_pickle=True)
+	np.save('./npy/valid_prepared.npy', valid_inputs, allow_pickle=True)
+	np.save('./npy/test_prepared.npy', test_inputs, allow_pickle=True)
 
 
 if __name__ == '__main__':
